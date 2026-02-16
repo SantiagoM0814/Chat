@@ -11,8 +11,8 @@ const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:8000';
  * (por ejemplo, FetchChatService) sin modificar el código existente.
  */
 export class AxiosChatService implements IChatService {
-  private apiUrl: string;
-  private timeout: number;
+  private readonly apiUrl: string;
+  private readonly timeout: number;
 
   /**
    * @param apiUrl URL base del servidor (default: variable de entorno o http://localhost:8000)

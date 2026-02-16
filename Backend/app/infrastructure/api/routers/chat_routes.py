@@ -1,3 +1,4 @@
+from typing import Annotated
 from fastapi import APIRouter, HTTPException, Depends
 from app.domain.models import ChatRequest, ChatResponse
 from app.application.chat_service import ChatService
@@ -12,10 +13,35 @@ chat_service = ChatService(provider=provider)
 def get_chat_service() -> ChatService:
     return chat_service
 
-@router.post("/chat", response_model=ChatResponse)
+@router.post(
+        "/chat",
+        response_model=ChatResponse,
+        responses={
+        400: {
+            "description": "Solicitud inválida",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "conversation_id es requerido"
+                    }
+                }
+            },
+        },
+        500: {
+            "description": "Error interno del servidor",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "Error interno del servidor"
+                    }
+                }
+            },
+        },
+    },    
+)
 async def chat_endpoint(
     request: ChatRequest, 
-    service: ChatService = Depends(get_chat_service)
+    service: Annotated[ChatService, Depends(get_chat_service)]
 ):
     if request.conversation_id is None:
         raise HTTPException(status_code=400, detail="conversation_id es requerido")
