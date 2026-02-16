@@ -39,4 +39,4 @@ console.warn = (...args) => {
 };
 
 // Mock de fetch global
-global.fetch = jest.fn();
+globalThis.fetch = jest.fn();

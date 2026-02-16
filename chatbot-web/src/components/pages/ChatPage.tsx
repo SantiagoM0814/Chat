@@ -37,6 +37,7 @@ const ChatPage = () => {
       console.log(botMessage);
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
+      console.error("Error al comunicarse con el bot", error)
       setMessages(prev => [
         ...prev,
         {
